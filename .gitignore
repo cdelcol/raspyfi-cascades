@@ -1,0 +1,27 @@
+# MAC OSX
+.DS_Store
+._*
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+
+# Compiled Dynamic libraries
+*.so
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+
+# Compiled Translations
+*/translations/*.qm
+
+/.settings/
+arm/
+x86/
+.metadata/*
+/.metadata/
+
+-_site/*
