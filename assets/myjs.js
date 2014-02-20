@@ -3,7 +3,7 @@ var state = {
 	current : "",
 	data : Qt.createQmlObject('import bb.cascades 1.2; QtObject {signal updated() }', Qt.application, 'PlayState'),
 	update : function(state) {
-		HTTPRequest("GET", "engine", serverNotification, state);
+		HTTPRequest("GET", "engine", this.serverNotification, state);
 	},
 	change : function(cmd) {
 		console.debug("callCommand : " + cmd);
@@ -65,10 +65,10 @@ var browselist = {
 		}
 	},
 	getdata : function(path) {
-		MyJS.HTTPRequest("POST", "db", browseDataNotification, "filepath", path);
+		MyJS.HTTPRequest("POST", "db", this.onDataLoadComplete, "filepath", path);
 	},
 	playlistAdd : function(index, action) {
-		MyJS.HTTPRequest("POST", "db", onPlaylistAdd , action, browselist.current[index].directory ? browselist.current[index].directory : browselist.current[index].file);
+		MyJS.HTTPRequest("POST", "db", this.onPlaylistAdd , action, browselist.current[index].directory ? browselist.current[index].directory : browselist.current[index].file);
 	},
 	onDataLoadComplete : function(data) {
         browselist.current = JSON.parse(data);
@@ -82,16 +82,6 @@ var browselist = {
     }
 };
 
-//work around, because it didn't seem to want to call the real callback directly
-function browseDataNotification(response) {
-	browselist.onDataLoadComplete(response);
-};
-function onPlaylistAdd (response) {
-	console.debug("added");
-}
-function serverNotification(response) {
-	state.serverNotification(response);
-};
 function capitalise(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
