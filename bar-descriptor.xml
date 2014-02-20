@@ -63,20 +63,7 @@
        <platformArchitecture>armle-v7</platformArchitecture>
        <asset path="arm/o.le-v7/raspyfi_cascades.so" entry="true" type="Qnx/Elf">raspyfi_cascades.so</asset>
     </configuration>
-    <configuration name="Device-Profile">
-       <platformArchitecture>armle-v7</platformArchitecture>
-       <asset path="arm-p/o.le-v7-g/raspyfi_cascades" entry="true" type="Qnx/Elf">raspyfi_cascades</asset>
-    </configuration>
-    <configuration name="Simulator-Debug">
-       <platformArchitecture>x86</platformArchitecture>
-       <asset path="x86/o-g/raspyfi_cascades" entry="true" type="Qnx/Elf">raspyfi_cascades</asset>
-    </configuration>
-    <configuration name="Device-Coverage">       <platformArchitecture>armle-v7</platformArchitecture>
-</configuration>
-    <configuration name="Simulator-Profile">       <platformArchitecture>x86</platformArchitecture>
-</configuration>
-    <configuration name="Simulator-Coverage">       <platformArchitecture>x86</platformArchitecture>
-</configuration>
+
 
     <!--  Unique author ID assigned by signing authority. Required if using debug tokens. -->
     <!-- <authorId>ABC1234YjsnUk235h</authorId> -->
