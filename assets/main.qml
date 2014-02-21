@@ -179,7 +179,7 @@ TabbedPane {
             }
             onCreationCompleted: {
                 MyJS.state.data.updated.connect(pagePlayback.statusUpdated);
-                MyJS.state.update("");
+                MyJS.state.listenForUpdate("");
             }
 
             function statusUpdated() {

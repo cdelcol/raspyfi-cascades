@@ -2,22 +2,24 @@
 var state = {
 	current : "",
 	data : Qt.createQmlObject('import bb.cascades 1.2; QtObject {signal updated() }', Qt.application, 'PlayState'),
-	update : function(state) {
-		HTTPRequest("GET", "engine", this.serverNotification, state);
+	listenForUpdate : function(state) {
+		HTTPRequest("GET", "engine", this.updateSuccess, state);
 	},
 	change : function(cmd) {
 		console.debug("callCommand : " + cmd);
-		HTTPRequest("GET", "command", null, cmd);
-		state.update("play");
+		HTTPRequest("GET", "command", this.changeSuccess, cmd);
 	},
-	serverNotification: function(response) {
+	changeSuccess: function() {
+		console.debug("callCommand completed");
+		state.listenForUpdate(state.current.state);
+	},
+	updateSuccess: function(response) {
 		state.current = JSON.parse(response);
 		state.data.updated();
 		
 		//long poll request to listen for additional events
-		state.update(state.current.state);
+		state.listenForUpdate(state.current.state);
 	}
-	// listener: setup to listen to playState.updated, and call update with state.current.state. Clean out of the callback function
 };
 
 var browselist = {
