@@ -25,49 +25,6 @@ TabbedPane {
         imageSource: "asset:///images/ic_speaker.png"
         Page {
             id: pagePlayback
-            actions: [
-                ActionItem {
-                    id: previous
-                    title: "Previous"
-                    imageSource: "asset:///images/ic_previous.png"
-                    ActionBar.placement: ActionBarPlacement.OnBar
-                    onTriggered: {
-                        MyJS.state.change("previous");
-                    }
-                },
-                ActionItem {
-                    id: stop
-                    title: "Stop"
-                    imageSource: "asset:///images/ic_stop.png"
-                    ActionBar.placement: ActionBarPlacement.OnBar
-                    onTriggered: {
-                        MyJS.state.change("stop");
-                    }
-                },
-                ActionItem {
-                    id: play
-                    title: "Play"
-                    imageSource: "asset:///images/ic_play.png"
-                    ActionBar.placement: ActionBarPlacement.OnBar
-                    onTriggered: {
-                        if (MyJS.state.current.state == "play") {
-                            MyJS.state.change("pause");
-                        } else {
-                            MyJS.state.change("play");
-                        }
-                    }
-                },
-                ActionItem {
-                    id: next
-                    title: "Next"
-                    imageSource: "asset:///images/ic_next.png"
-                    ActionBar.placement: ActionBarPlacement.OnBar
-                    onTriggered: {
-                        MyJS.state.change("next");
-                    }
-                }
-            ]
- 
             Container {
                 verticalAlignment: VerticalAlignment.Fill
 
@@ -123,7 +80,7 @@ TabbedPane {
                     Button {
                         imageSource: "asset:///images/ic_speaker_mute.png"
                         onClicked: {
-                            MyJS.state.change("setvol 0");
+                            MyJS.state.change("setvol", 0);
                         }
                         verticalAlignment: VerticalAlignment.Bottom
                     }
@@ -148,30 +105,38 @@ TabbedPane {
                     rightPadding: 10.0
                     bottomPadding: 50.0
                     Button {
-                        imageSource: "asset:///images/ic_speaker_mute.png"
+                        id: previous
+                        imageSource: "asset:///images/ic_previous.png"
                         onClicked: {
-                            MyJS.state.change("setvol 0");
+                            MyJS.state.set("previous");
                         }
                         verticalAlignment: VerticalAlignment.Bottom
                     }
                     Button {
-                        imageSource: "asset:///images/ic_speaker_mute.png"
+                        id: stop
+                        imageSource: "asset:///images/ic_stop.png"
                         onClicked: {
-                            MyJS.state.change("setvol 0");
+                            MyJS.state.set("stop");
                         }
                         verticalAlignment: VerticalAlignment.Bottom
                     }
                     Button {
-                        imageSource: "asset:///images/ic_speaker_mute.png"
+                        id: playpause
+                        imageSource: "asset:///images/ic_play.png"
                         onClicked: {
-                            MyJS.state.change("setvol 0");
+                            if (MyJS.state.current.state=="play") {
+                                MyJS.state.set("pause");
+                            } else {
+                                MyJS.state.set("play");
+                            }
                         }
                         verticalAlignment: VerticalAlignment.Bottom
                     }
                     Button {
-                        imageSource: "asset:///images/ic_speaker_mute.png"
+                        id: next
+                        imageSource: "asset:///images/ic_next.png"
                         onClicked: {
-                            MyJS.state.change("setvol 0");
+                            MyJS.state.set("next");
                         }
                         verticalAlignment: VerticalAlignment.Bottom
                     }
@@ -183,7 +148,7 @@ TabbedPane {
             }
 
             function statusUpdated() {
-                console.log("Status updated...");
+                console.debug("Status updated...");
                 nowPlayingAlbum.text = MyJS.state.current.currentalbum || "";
                 nowPlayingArtist.text = MyJS.state.current.currentartist || "";
                 nowPlayingSong.text = MyJS.state.current.currentsong || "";
@@ -193,11 +158,15 @@ TabbedPane {
                     playbackVolume.valueChanged.connect();
                     playbackVolume.value = MyJS.state.current.volume;
                     playbackVolume.valueChanged.connect(function(v){
-                            MyJS.state.change("setvol " + Math.floor(v));
+                            MyJS.state.set("setvol", Math.floor(v));
                     });
                 }
-                play.setImageSource("asset:///images/ic_" + MyJS.state.current.state + ".png");
-                play.title = MyJS.capitalise(MyJS.state.current.state);
+                //play/pause button toggle
+                if (MyJS.state.current.state=="pause") {
+                    playpause.setImageSource("asset:///images/ic_pause.png");
+                } else {
+                    playpause.setImageSource("asset:///images/ic_play.png");
+                }
             }            
         }
 

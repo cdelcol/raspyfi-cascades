@@ -5,13 +5,17 @@ var state = {
 	listenForUpdate : function(state) {
 		HTTPRequest("GET", "engine", this.updateSuccess, state);
 	},
-	change : function(cmd) {
-		console.debug("callCommand : " + cmd);
+	set : function(cmd, value) {
+		console.debug("callCommand : " + cmd , value);
+		if (cmd==state.current.state) { return; }
+		if (cmd=="setvol") {
+			if (value==state.current.volume) { return; }
+			cmd+=" " + value;
+		}
 		HTTPRequest("GET", "command", this.changeSuccess, cmd);
 	},
 	changeSuccess: function() {
 		console.debug("callCommand completed");
-		state.listenForUpdate(state.current.state);
 	},
 	updateSuccess: function(response) {
 		state.current = JSON.parse(response);
@@ -84,9 +88,6 @@ var browselist = {
     }
 };
 
-function capitalise(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-}
 /* type: GET/POST
  * url: db/engine/command
  * callback
