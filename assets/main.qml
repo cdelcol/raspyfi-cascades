@@ -155,7 +155,7 @@ TabbedPane {
                 
                 //if we need to change volume: remove binding, set, replace binding
                 if (!(Math.floor(playbackVolume.value)==MyJS.state.current.volume)) {
-                    playbackVolume.valueChanged.connect();
+                    playbackVolume.valueChanged.disconnect();
                     playbackVolume.value = MyJS.state.current.volume;
                     playbackVolume.valueChanged.connect(function(v){
                             MyJS.state.set("setvol", Math.floor(v));
