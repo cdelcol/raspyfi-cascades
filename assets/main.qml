@@ -66,7 +66,7 @@ TabbedPane {
                         imageSource: "asset:///images/ic_speaker_mute.png"
                         onClicked: {
                             if (playbackVolume.value != 0) {
-                                APP.state.GUI.volume = playbackVolume.value;
+                                APP.state.GUI.volume = Math.floor(playbackVolume.value);
                                 APP.state.set("setvol", 0);
                             } else {
                                 APP.state.set("setvol", APP.state.GUI.volume);
