@@ -1,5 +1,5 @@
 1
-15
+16
 browseMusic.qml
 images/ic_add.png
 images/ic_home.png
@@ -12,6 +12,7 @@ images/ic_speaker.png
 images/ic_speaker_mute.png
 images/ic_stop.png
 images/ic_view_list.png
+js/app.js
+js-common/sub-zepto.js
 main.qml
-myjs.js
 topMenu.qml

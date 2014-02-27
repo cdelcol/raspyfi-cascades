@@ -1,5 +1,6 @@
 import bb.cascades 1.2
-import "myjs.js" as MyJS
+import "js/app.js" as APP
+import "js-common/sub-zepto.js" as Z$
 
 Page {
     id: pageBrowseMusic
@@ -11,7 +12,7 @@ Page {
             imageSource: "asset:///images/ic_previous.png"
             ActionBar.placement: ActionBarPlacement.OnBar
             onTriggered: {
-                MyJS.browselist.getDataPrevious();
+                APP.browselist.getDataPrevious();
             }
         },
         ActionItem {
@@ -20,7 +21,7 @@ Page {
 	        imageSource: "asset:///images/ic_home.png"
 	        ActionBar.placement: ActionBarPlacement.OnBar
 	        onTriggered: {
-	            MyJS.browselist.getDataRoot();
+	            APP.browselist.getDataRoot();
 	        }
         }
     ]
@@ -37,28 +38,28 @@ Page {
             }
             onTriggered: {
                 console.debug(indexPath);
-                MyJS.browselist.getDataNext(indexPath);
+                APP.browselist.getDataNext(indexPath);
             }
             contextActions: [
                 ActionSet {
                     ActionItem {
                         title: "Add"
                         onTriggered: {
-                            MyJS.browselist.playlistAdd(browseListView.selected(), "add");
+                            APP.browselist.playlistAdd(browseListView.selected(), "add");
                         }
                         imageSource: "asset:///images/ic_add.png"
                     }
                     ActionItem {
                         title: "Add and play"
                         onTriggered: {
-                            MyJS.browselist.playlistAdd(browseListView.selected(), "addplay");
+                            APP.browselist.playlistAdd(browseListView.selected(), "addplay");
                         }
                         imageSource: "asset:///images/ic_play.png"
                     }
                     ActionItem {
                         title: "Add, replace and play"
                         onTriggered: {
-                            MyJS.browselist.playlistAdd(browseListView.selected(), "addreplaceplay");
+                            APP.browselist.playlistAdd(browseListView.selected(), "addreplaceplay");
                         }
                         imageSource: "asset:///images/ic_open.png"
                     }
@@ -68,9 +69,9 @@ Page {
         }
  
         onCreationCompleted: {
-            MyJS.browselist.data.updated.connect(function(){
+            APP.browselist.data.updated.connect(function(){
                 dbListData.clear();
-                MyJS.browselist.current.forEach(function(value) {
+                APP.browselist.current.forEach(function(value) {
                     function format(value) {
                         if (value.directory) {
                         	return value.directory.split('/').pop();
@@ -93,7 +94,7 @@ Page {
                 });
             });
             
-            MyJS.browselist.getDataRoot();
+            APP.browselist.getDataRoot();
         }
     }
 }

@@ -1,21 +1,6 @@
-/*
- * Copyright (c) 2011-2013 BlackBerry Limited.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 import bb.cascades 1.2
-import "myjs.js" as MyJS
+import "js/app.js" as APP
+import "js-common/sub-zepto.js" as Z$
 
 
 TabbedPane {
@@ -81,10 +66,10 @@ TabbedPane {
                         imageSource: "asset:///images/ic_speaker_mute.png"
                         onClicked: {
                             if (playbackVolume.value != 0) {
-                                MyJS.state.GUI.volume = playbackVolume.value;
-                                MyJS.state.set("setvol", 0);
+                                APP.state.GUI.volume = playbackVolume.value;
+                                APP.state.set("setvol", 0);
                             } else {
-                                MyJS.state.set("setvol", MyJS.state.GUI.volume);
+                                APP.state.set("setvol", APP.state.GUI.volume);
                             }
                         }
                         verticalAlignment: VerticalAlignment.Bottom
@@ -95,8 +80,8 @@ TabbedPane {
                         toValue: 100
                         verticalAlignment: VerticalAlignment.Bottom
                         function changeVolume(v) {
-                            MyJS.state.GUI.volume = MyJS.state.current.volume;
-                            MyJS.state.set("setvol", Math.floor(v));
+                            APP.state.GUI.volume = APP.state.current.volume;
+                            APP.state.set("setvol", Math.floor(v));
                         }
                         onCreationCompleted: {
                             playbackVolume.valueChanged.connect(changeVolume);
@@ -120,7 +105,7 @@ TabbedPane {
                         id: previous
                         imageSource: "asset:///images/ic_previous.png"
                         onClicked: {
-                            MyJS.state.set("previous");
+                            APP.state.set("previous");
                         }
                         verticalAlignment: VerticalAlignment.Bottom
                     }
@@ -128,7 +113,7 @@ TabbedPane {
                         id: stop
                         imageSource: "asset:///images/ic_stop.png"
                         onClicked: {
-                            MyJS.state.set("stop");
+                            APP.state.set("stop");
                         }
                         verticalAlignment: VerticalAlignment.Bottom
                     }
@@ -136,10 +121,10 @@ TabbedPane {
                         id: playpause
                         imageSource: "asset:///images/ic_play.png"
                         onClicked: {
-                            if (MyJS.state.current.state=="play") {
-                                MyJS.state.set("pause");
+                            if (APP.state.current.state=="play") {
+                                APP.state.set("pause");
                             } else {
-                                MyJS.state.set("play");
+                                APP.state.set("play");
                             }
                         }
                         verticalAlignment: VerticalAlignment.Bottom
@@ -148,32 +133,32 @@ TabbedPane {
                         id: next
                         imageSource: "asset:///images/ic_next.png"
                         onClicked: {
-                            MyJS.state.set("next");
+                            APP.state.set("next");
                         }
                         verticalAlignment: VerticalAlignment.Bottom
                     }
                 }
             }
             onCreationCompleted: {
-                MyJS.state.data.updated.connect(pagePlayback.statusUpdated);
-                MyJS.state.listenForUpdate("");
+                APP.state.data.updated.connect(pagePlayback.statusUpdated);
+                APP.state.listenForUpdate("");
             }
 
             function statusUpdated() {
                 console.debug("Status updated...");
-                nowPlayingAlbum.text = MyJS.state.current.currentalbum || "";
-                nowPlayingArtist.text = MyJS.state.current.currentartist || "";
-                nowPlayingSong.text = MyJS.state.current.currentsong || "";
+                nowPlayingAlbum.text = APP.state.current.currentalbum || "";
+                nowPlayingArtist.text = APP.state.current.currentartist || "";
+                nowPlayingSong.text = APP.state.current.currentsong || "";
                 
                 //if we need to change volume: remove binding, set, replace binding
-                if (!(Math.floor(playbackVolume.value)==MyJS.state.current.volume)) {
+                if (!(Math.floor(playbackVolume.value)==APP.state.current.volume)) {
                     playbackVolume.valueChanged.disconnect(playbackVolume.changeVolume);
-                    playbackVolume.value = MyJS.state.current.volume;
+                    playbackVolume.value = APP.state.current.volume;
                     playbackVolume.valueChanged.connect(playbackVolume.changeVolume);
                 }
 
                 //play/pause button toggle
-                if (MyJS.state.current.state=="pause") {
+                if (APP.state.current.state=="pause") {
                     playpause.setImageSource("asset:///images/ic_pause.png");
                 } else {
                     playpause.setImageSource("asset:///images/ic_play.png");
