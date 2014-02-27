@@ -80,7 +80,12 @@ TabbedPane {
                     Button {
                         imageSource: "asset:///images/ic_speaker_mute.png"
                         onClicked: {
-                            MyJS.state.change("setvol", 0);
+                            if (playbackVolume.value != 0) {
+                                MyJS.state.GUI.volume = playbackVolume.value;
+                                MyJS.state.set("setvol", 0);
+                            } else {
+                                MyJS.state.set("setvol", MyJS.state.GUI.volume);
+                            }
                         }
                         verticalAlignment: VerticalAlignment.Bottom
                     }
@@ -89,6 +94,13 @@ TabbedPane {
                         id: playbackVolume
                         toValue: 100
                         verticalAlignment: VerticalAlignment.Bottom
+                        function changeVolume(v) {
+                            MyJS.state.GUI.volume = MyJS.state.current.volume;
+                            MyJS.state.set("setvol", Math.floor(v));
+                        }
+                        onCreationCompleted: {
+                            playbackVolume.valueChanged.connect(changeVolume);
+                        }
                     }
                     Button {
                         imageSource: "asset:///images/ic_speaker.png"
@@ -155,12 +167,11 @@ TabbedPane {
                 
                 //if we need to change volume: remove binding, set, replace binding
                 if (!(Math.floor(playbackVolume.value)==MyJS.state.current.volume)) {
-                    playbackVolume.valueChanged.disconnect();
+                    playbackVolume.valueChanged.disconnect(playbackVolume.changeVolume);
                     playbackVolume.value = MyJS.state.current.volume;
-                    playbackVolume.valueChanged.connect(function(v){
-                            MyJS.state.set("setvol", Math.floor(v));
-                    });
+                    playbackVolume.valueChanged.connect(playbackVolume.changeVolume);
                 }
+
                 //play/pause button toggle
                 if (MyJS.state.current.state=="pause") {
                     playpause.setImageSource("asset:///images/ic_pause.png");

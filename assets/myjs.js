@@ -1,5 +1,9 @@
 
 var state = {
+	GUI : {
+		state : '',
+		volume : null
+	},
 	current : "",
 	data : Qt.createQmlObject('import bb.cascades 1.2; QtObject {signal updated() }', Qt.application, 'PlayState'),
 	listenForUpdate : function(state) {
