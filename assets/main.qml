@@ -17,40 +17,40 @@ TabbedPane {
 
                 layoutProperties: StackLayoutProperties {
                     spaceQuota: 1.0
-
                 }
                 Container {
                     horizontalAlignment: HorizontalAlignment.Center
                     verticalAlignment: VerticalAlignment.Top
                     layoutProperties: StackLayoutProperties {
                         spaceQuota: 1.0
-                    
                     }
+                    topMargin: 20.0
+                    leftPadding: 10.0
+                    rightPadding: 10.0
+                    bottomPadding: 50.0
+
                     Header {
                         title: "Now playing"
-
                     }
                     Label {
                         id: nowPlayingArtist
-                        //text: "I am the artist"
                         horizontalAlignment: HorizontalAlignment.Center
-
+                        textStyle.textAlign: TextAlign.Center
+                        textStyle.fontSize: FontSize.Large
                     }
                     Label {
                         id: nowPlayingSong
-                        //text: "This is the song name"
                         horizontalAlignment: HorizontalAlignment.Center
                         textStyle.color: Color.Cyan
                         textStyle.fontSize: FontSize.XXLarge
-
+                        multiline: true
+                        textStyle.textAlign: TextAlign.Center
                     }
                     Label {
                         id: nowPlayingAlbum
-                        //text: "Album Name"
                         horizontalAlignment: HorizontalAlignment.Center
-
+                        textStyle.fontSize: FontSize.Large
                     }
-
                 }
                 Container {
                     verticalAlignment: VerticalAlignment.Bottom
